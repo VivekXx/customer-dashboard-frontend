@@ -27,7 +27,7 @@ function ChildApp() {
   const [page,setPage] = React.useState(0)
   useEffect(()=>{
     console.log('use eff')
-    axios.get('https://customer-dashboard021.herokuapp.com/').then((response)=>{
+    axios.get('https://customer-dashboard021.herokuapp.com/api/v1/customers').then((response)=>{
       setCustomers(response.data.data)
     })
   },[])
