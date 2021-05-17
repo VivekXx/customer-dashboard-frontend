@@ -6,6 +6,7 @@ export const Insert = ({customers,setCustomers}) => {
     const [phone,setPhone] = useState('')
     const [amount,setAmount] = useState('')
     const [message,setMessage] = useState(false)
+    const [sent,setSent] = useState(false)
     
 
     // const handleSubmit = () => {
@@ -21,7 +22,7 @@ export const Insert = ({customers,setCustomers}) => {
         else return false}
     const postOrder = async () => {
         try {   
-            const response = await axios.post('/api/v1/customers',{name,phone,amount})
+            const response = await axios.post('https://customer-dashboard021.herokuapp.com/api/v1/customers',{name,phone,amount})
             console.log(response)
             // setCustomers(customers.concat(response.data.data))
         } catch(err) {
@@ -38,7 +39,10 @@ export const Insert = ({customers,setCustomers}) => {
                     setMessage(true)
                     return
                 }
-                
+                setName('')
+                setAmount('')
+                setPhone('')
+                setSent(true)
                 postOrder()
                 
             }}>
@@ -51,8 +55,9 @@ export const Insert = ({customers,setCustomers}) => {
                 <label>Amount</label>
                 <input type='text' placeholder='Enter amount...' value={amount} onChange={(e)=>setAmount(e.target.value)}/>
                 {(message && (!amount || !check(amount))) && <p style={{color:'red'}}>Please enter amount...</p>}
-                <input className='add' type='submit' value={'Add'}/>
+                <input disabled={!name || !phone || !amount} className='add' type='submit' value={'Add'}/>
                 {message && <p style={{color:'red'}}>Please fill necessary fields...</p>}
+                {sent && <p style={{color:'green'}}>Entry added successfully...</p>}
             </form>
         </div>
     )
